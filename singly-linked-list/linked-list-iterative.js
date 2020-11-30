@@ -9,10 +9,10 @@ function LinkedList(head) {
   this.printList = () => {
     if (this.head === null) return "Error: LinkedList does not have a head";
 
-    let currentNode = this.head;
-    while (currentNode !== null) {
-      console.log(currentNode.data);
-      currentNode = currentNode.next;
+    let currNode = this.head;
+    while (currNode !== null) {
+      console.log(currNode.data);
+      currNode = currNode.next;
     }
   }
 
@@ -31,12 +31,12 @@ function LinkedList(head) {
 
     if (this.head === null) this.head = newNode;
 
-    let currentNode = this.head;
-    while(currentNode.next !== null) {
-      currentNode = currentNode.next;
+    let currNode = this.head;
+    while(currNode.next !== null) {
+      currNode = currNode.next;
     }
 
-    currentNode.next = newNode;
+    currNode.next = newNode;
   }
 
   this.delete = (data) => {
@@ -47,21 +47,21 @@ function LinkedList(head) {
       return;
     }
 
-    let currentNode = this.head;
+    let currNode = this.head;
     let prevNode = null;
     let foundNode = false;
 
-    while(!foundNode && currentNode !== null) {
-      if (currentNode.data === data) {
+    while(!foundNode && currNode !== null) {
+      if (currNode.data === data) {
         foundNode = true;
       } else {
-        prevNode = currentNode;
-        currentNode = currentNode.next;
+        prevNode = currNode;
+        currNode = currNode.next;
       }
     }
 
     if (foundNode) {
-      prevNode.next = currentNode.next;
+      prevNode.next = currNode.next;
     } else {
       console.log("no node with that data");
       return;
@@ -76,21 +76,21 @@ function LinkedList(head) {
       return;
     }
 
-    let currentNode = this.head.next;
+    let currNode = this.head.next;
     let prevNode = this.head;
 
     for (let linkedListPos = 1; linkedListPos <= index; linkedListPos++) {
-      if (currentNode === null) {
+      if (currNode === null) {
         console.log(`index ${index} is out of bounds`)
         return;
       }
 
       if (linkedListPos === index) {
-        prevNode.next = currentNode.next;
+        prevNode.next = currNode.next;
         return;
       } else {
-        prevNode = currentNode;
-        currentNode = currentNode.next;
+        prevNode = currNode;
+        currNode = currNode.next;
       }
     }
   }
@@ -99,15 +99,47 @@ function LinkedList(head) {
 
   this.length = () => {
     let count = 0;
-    let currentNode = this.head;
+    let currNode = this.head;
 
-    while (currentNode !== null) {
+    while (currNode !== null) {
       length++;
-      currentNode = currentNode.next;
+      currNode = currNode.next;
     }
 
     return length;
   }
+
+  this.search = (key) => {
+    let currNode = this.head;
+
+    while(currNode !== null) {
+      if (currNode.data === key) {
+        return true;
+      }
+
+      currNode = currNode.next;
+    }
+
+    return false;
+  }
+
+  this.getNth = (index) => {
+    if (index < 0) return "You must pass an index greater than or equal to 0";
+
+    let currNodeIndex = 0;
+    let currNode = this.head;
+
+    while (currNode !== null) {
+      if (currNodeIndex === index) {
+        return currNode;
+      }
+
+      currNodeIndex++;
+      currNode = currNode.next;
+    }
+  }
+
+  return "Out of bounds";
 }
 
 // create 3 nodes
@@ -148,6 +180,17 @@ linkedList.printList(); // 1 4
 
 linkedList.deleteAtIndex(3); // index 3 is out of bounds
 linkedList.printList(); // 1 4
+
+console.log(linkedList.length()); // 2
+
+console.log(linkedList.search(1)); // true
+
+console.log(linkedList.search(5)); // false
+
+console.log(linkedList.getNth(-1));
+console.log(linkedList.getNth(0));
+console.log(linkedList.getNth(1));
+console.log(linkedList.getNth(2));
 
 linkedList.deleteLinkedList();
 linkedList.printList(); // null
